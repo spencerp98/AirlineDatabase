@@ -2,15 +2,16 @@ CREATE TABLE `crew_base` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `city` varchar(255),
 PRIMARY KEY (`id`),
-UNIQUE KEY (`city`)
+UNIQUE KEY (`city`),
 ) ENGINE=InnoDB;
 
 CREATE TABLE `crew_member` (
 `id` int(11) NOT NULL AUTO INCREMENT,
 `fname` varchar(255) NOT NULL,
 `lname` varchar(255) NOT NULL,
-`crewbase` varchar(255),
+`crewbase` int(11),
 `role` varchar(255),
 PRIMARY KEY (`id`),
-UNIQUE KEY(`fname`, `lname`)
+UNIQUE KEY(`fname`, `lname`),
+FOREIGN KEY (`crewbase`) REFERENCES ``crew_base` (`id`)
 ) ENGINE=InnoDB;
