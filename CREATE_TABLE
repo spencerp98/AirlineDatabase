@@ -5,7 +5,7 @@ PRIMARY KEY (`id`),
 UNIQUE KEY (`city`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE `crew_many` (
+CREATE TABLE `crew_member` (
 `id` int(11) NOT NULL AUTO INCREMENT,
 `fname` varchar(255) NOT NULL,
 `lname` varchar(255) NOT NULL,
