@@ -10,8 +10,46 @@ CREATE TABLE `crew_member` (
 `fname` varchar(255) NOT NULL,
 `lname` varchar(255) NOT NULL,
 `crewbase` int(11),
-`role` varchar(255),
+`role` varchar(255) NOT NULL,
 PRIMARY KEY (`id`),
 UNIQUE KEY(`fname`, `lname`),
-FOREIGN KEY (`crewbase`) REFERENCES ``crew_base` (`id`)
+FOREIGN KEY (`crewbase`) REFERENCES `crew_base` (`id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `crew_flight` (
+`crew_id` int(11) NOT NULL,
+`flight_id` int(11) NOT NULL,
+FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`),
+FOREIGN KEY (`flight_id`) REFERENCES `flight` (`id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `flight` (
+`id` int(11) NOT NULL AUTO INCREMENT,
+`aircraft` varchar(255) NOT NULL,
+`departureCity` varchar(255) NOT NULL,
+`arrivalCity` varchar(255) NOT NULL,
+`dateTime` int(11) NOT NULL,
+PRIMARY KEY (`id`),
+FOREIGN KEY (`aircraft`) REFERENCES `aircraft` (`id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `aircraft` (
+`id` int(11) NOT NULL AUTO INCREMENT,
+`type` int(11) NOT NULL,
+`registrationNumber` (int)11 NOT NULL,
+PRIMARY KEY (`id`),
+FOREIGN KEY (`type`) REFERENCES `aircraft_type` (`id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `aircraft_type` (
+`id` int(11) NOT NULL AUTO INCREMENT,
+`manufacturer` varchar(255) NOT NULL,
+`model` varchar(255) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE `crew_aircraft` (
+`crew_id` int(11) NOT NULL,
+`aircraftTypeID int(11) NOT NULL,
+FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`),
+FOREIGN KEY `aircraftTypeID` REFERENCES `aircraft_type` (`id`)
 ) ENGINE=InnoDB;
