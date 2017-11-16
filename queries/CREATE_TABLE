@@ -1,55 +1,64 @@
+DROP TABLE IF EXISTS `crew_base`;
+DROP TABLE IF EXISTS `crew_member`;
+DROP TABLE IF EXISTS `crew_flight`;
+DROP TABLE IF EXISTS `flight`;
+DROP TABLE IF EXISTS `aircraft`;
+DROP TABLE IF EXISTS `aircraft_type`;
+DROP TABLE IF EXISTS `crew_aircraft`;
+
 CREATE TABLE `crew_base` (
-`id` int(11) NOT NULL AUTO_INCREMENT,
-`city` varchar(255),
-PRIMARY KEY (`id`),
-UNIQUE KEY (`city`),
+	`id` int NOT NULL AUTO_INCREMENT,
+	`city` varchar(255),
+	PRIMARY KEY (`id`),
+	UNIQUE (`city`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `crew_member` (
-`id` int(11) NOT NULL AUTO INCREMENT,
-`fname` varchar(255) NOT NULL,
-`lname` varchar(255) NOT NULL,
-`crewbase` int(11),
-`role` varchar(255) NOT NULL,
-PRIMARY KEY (`id`),
-UNIQUE KEY(`fname`, `lname`),
-FOREIGN KEY (`crewbase`) REFERENCES `crew_base` (`id`)
+	`id` int NOT NULL AUTO_INCREMENT,
+	`fname` varchar(255) NOT NULL,
+	`lname` varchar(255) NOT NULL,
+	`crewbase` int,
+	`role` varchar(255) NOT NULL,
+	PRIMARY KEY (`id`),
+	CONSTRAINT U_Person UNIQUE (`fname`, `lname`),
+	FOREIGN KEY (`crewbase`) REFERENCES `crew_base` (`id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `crew_flight` (
-`crew_id` int(11) NOT NULL,
-`flight_id` int(11) NOT NULL,
-FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`),
-FOREIGN KEY (`flight_id`) REFERENCES `flight` (`id`)
+	`crew_id` int NOT NULL,
+	`flight_id` int NOT NULL,
+	FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`),
+	FOREIGN KEY (`flight_id`) REFERENCES `flight` (`id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `flight` (
-`id` int(11) NOT NULL AUTO INCREMENT,
-`aircraft` varchar(255) NOT NULL,
-`departureCity` varchar(255) NOT NULL,
-`arrivalCity` varchar(255) NOT NULL,
-`dateTime` int(11) NOT NULL,
-PRIMARY KEY (`id`),
-FOREIGN KEY (`aircraft`) REFERENCES `aircraft` (`id`)
-) ENGINE=InnoDB;
-
-CREATE TABLE `aircraft` (
-`id` int(11) NOT NULL AUTO INCREMENT,
-`type` int(11) NOT NULL,
-`registrationNumber` (int)11 NOT NULL,
-PRIMARY KEY (`id`),
-FOREIGN KEY (`type`) REFERENCES `aircraft_type` (`id`)
+	`id` int NOT NULL AUTO_INCREMENT,
+	`aircraft` int NOT NULL,
+	`departureCity` varchar(255) NOT NULL,
+	`arrivalCity` varchar(255) NOT NULL,
+	`dateTime` int NOT NULL,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`aircraft`) REFERENCES `aircraft` (`id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `aircraft_type` (
-`id` int(11) NOT NULL AUTO INCREMENT,
-`manufacturer` varchar(255) NOT NULL,
-`model` varchar(255) NOT NULL
+	`id` int NOT NULL AUTO_INCREMENT,
+	`manufacturer` varchar(255) NOT NULL,
+	`model` varchar(255) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `aircraft` (
+	`id` int NOT NULL AUTO_INCREMENT,
+	`type` int NOT NULL,
+	`registrationNumber` varchar(6) NOT NULL,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`type`) REFERENCES `aircraft_type` (`id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `crew_aircraft` (
-`crew_id` int(11) NOT NULL,
-`aircraftTypeID int(11) NOT NULL,
-FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`),
-FOREIGN KEY `aircraftTypeID` REFERENCES `aircraft_type` (`id`)
+	`crew_id` int NOT NULL,
+	`aircraftTypeID` int NOT NULL,
+	FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`),
+	FOREIGN KEY (`aircraftTypeID`) REFERENCES `aircraft_type` (`id`)
 ) ENGINE=InnoDB;
