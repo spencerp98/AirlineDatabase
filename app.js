@@ -1,22 +1,22 @@
 var express = require("express");
 var mysql = require('./dbcon.js');
+var bodyParser = require('body-parser');
 
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
-var bodyParser = require('body-parser');
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 app.engine('handlebars', handlebars.engine);
+app.use(bodyParser.urlencoded({extended:true}));
+app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
-//app.set('port', XXXXX); //USE THIS ON FLIP
-
-app.use(express.static(__dirname + '/public'));
+//app.set('port', process.argv[2]);
+app.set('mysql', mysql);
 
 app.get("/", function(req, res){
-    res.render('home');
-})
+  res.render('home');
+});
+
+app.use('/crew', require('./crew.js'));
 
 app.use(function(req,res){
   res.status(404);
