@@ -10,7 +10,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	    {{#each crew_member}}
+	    {{#each crewmembers}}
 		<tr>
 			<td>{{fname}}</td>
 			<td>{{lname}}</td>
@@ -40,7 +40,7 @@
 		</p>
 		<p>Crew Base:
 			<select name="crewMemberBase">
-				{{#each crew_base}}
+				{{#each crewbase}}
 				<option value="{{id}}">{{name}}</option>
 				{{/each}}
 			</select>
