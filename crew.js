@@ -19,7 +19,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.crewMembers = results;
+            context.crew_member = results;
             complete();
         });
     }
@@ -32,7 +32,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.crewMember = results[0];
+            context.crew_member = results[0];
             complete();
         });
     }
@@ -42,7 +42,7 @@ module.exports = function(){
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deleteperson.js"];
+        context.jsscripts = ["deletecrew.js"];
         var mysql = req.app.get('mysql');
         getCrewMembers(res, mysql, context, complete);
         getCrewBases(res, mysql, context, complete);
@@ -55,7 +55,7 @@ module.exports = function(){
         }
     });
 
-    /* Display one person for the specific purpose of updating people */
+    /* Display one crew_member for the specific purpose of updating that crew_member */
 
     router.get('/:id', function(req, res){
         var callbackCount = 0;
@@ -67,13 +67,13 @@ module.exports = function(){
         function complete(){
             callbackCount++;
             if(callbackCount >= 2){
-                res.render('update-crew-member', context);
+                res.render('update-crew', context);
             }
 
         }
     });
 
-    /* Adds a person, redirects to the people page after adding */
+    /* Adds a crew_member, redirects to the crew page after adding */
 
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
@@ -89,12 +89,12 @@ module.exports = function(){
         });
     });
 
-    /* The URI that update data is sent to in order to update a person */
+    /* The URI that update data is sent to in order to update a crew_member */
 
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "UPDATE crew_member SET fname=?, lname=?, homeworld=?, age=? WHERE id=?";
-        var inserts = [req.body.fname, req.body.lname, req.body.homeworld, req.body.age, req.params.id];
+        var sql = "UPDATE crew_member SET fname=?, lname=?, crewbase=?, role=? WHERE id=?";
+        var inserts = [req.body.fname, req.body.lname, req.body.crewbase, req.body.role, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -106,7 +106,7 @@ module.exports = function(){
         });
     });
 
-    /* Route to delete a person, simply returns a 202 upon success. Ajax will handle this. */
+    /* Route to delete a crew_member, simply returns a 202 upon success. Ajax will handle this. */
 
     router.delete('/:id', function(req, res){
         var mysql = req.app.get('mysql');

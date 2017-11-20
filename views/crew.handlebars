@@ -10,13 +10,13 @@
 		</tr>
 	</thead>
 	<tbody>
-	    {{#each crewMembers}}
+	    {{#each crew_member}}
 		<tr>
 			<td>{{fname}}</td>
 			<td>{{lname}}</td>
 			<td>{{role}}</td>
 			<td>{{crewbase}}</td>
-			<td><button onclick="deleteCrewMember({{id}})">Delete</button></td>
+			<td><button onclick="deleteCrew({{id}})">Delete</button></td>
 			<td><a href="/crew/{{id}}">Update</a></td>
 		</tr>	
 		{{/each}}
