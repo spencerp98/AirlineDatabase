@@ -36,7 +36,7 @@ CREATE TABLE `flight` (
 	`aircraft` int NOT NULL,
 	`departureCity` varchar(255) NOT NULL,
 	`arrivalCity` varchar(255) NOT NULL,
-	`dateTime` int NOT NULL,
+	`dateTime` datetime NOT NULL,
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`aircraft`) REFERENCES `aircraft` (`id`)
 ) ENGINE=InnoDB;

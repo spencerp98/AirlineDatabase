@@ -38,8 +38,8 @@ INSERT INTO aircraft (`type`, registrationNumber)
 VALUES (2, "N777CS");
 
 INSERT INTO flight (aircraft, departureCity, arrivalCity, dateTime)
-VALUES (0, "PHL", "PDX", "2017-12-5 10:30:00");
+VALUES (1, "PHL", "PDX", "2017-12-05 10:30:00");
 
 INSERT INTO flight (aircraft, departureCity, arrivalCity, dateTime)
-VALUES (0, "JFK", "LAX", "2017-12-7 07:46:00");
+VALUES (2, "JFK", "LAX", "2017-12-07 07:46:00");
 
