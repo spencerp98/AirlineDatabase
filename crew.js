@@ -14,7 +14,7 @@ module.exports = function(){
     }
 
     function getCrewMembers(res, mysql, context, complete){
-        mysql.pool.query("SELECT crew_member.id, fname, lname, crew_base.name AS crewbase, role FROM crew_member INNER JOIN crew_base ON crew_member.crewbase = crew_base.id", function(error, results, fields){
+        mysql.pool.query("SELECT crew_member.id, fname, lname, crew_base.city AS crewbase, role FROM crew_member INNER JOIN crew_base ON crew_member.crewbase = crew_base.id", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
