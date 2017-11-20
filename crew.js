@@ -60,7 +60,7 @@ module.exports = function(){
     router.get('/:id', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["selectedcrewbase.js", "updatecrewmember.js"];
+        context.jsscripts = ["selectedcrewbase.js", "updatecrew.js"];
         var mysql = req.app.get('mysql');
         getCrewMember(res, mysql, context, req.params.id, complete);
         getCrewBases(res, mysql, context, complete);

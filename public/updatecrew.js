@@ -1,4 +1,4 @@
-function updatePerson(id){
+function updateCrew(id){
     $.ajax({
         url: '/crew/' + id,
         type: 'PUT',

@@ -2,12 +2,12 @@
 <form id="update-person" action="/people" method="post">
     First name: <input type="text" name="fname" value="{{crew_member.fname}}"><br>
     Last name: <input type="text" name="lname" value="{{crew_member.lname}}"><br>
-    Homeworld: <select name="homeworld" id="planet-selector"> 
+    Crew Base: <select name="crewbase" id="crewbase-selector"> 
         {{#each crewbase}}
         <option value="{{id}}">{{city}}</option>
         {{/each}}
     </select><br>
-    Age: <input type="number" name="age" value="{{crew_member.role}}"><br>
+    Role: <input type="text" name="role" value="{{crew_member.role}}"><br>
 </form>
-<button onclick="updatePerson({{crew_member.id}})">Update</button>
+<button onclick="updateCrew({{crew_member.id}})">Update</button>
 <script defer>selectCrewBase({{crew_member.crewbase}});</script>
