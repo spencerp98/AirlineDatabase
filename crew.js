@@ -77,7 +77,7 @@ module.exports = function(){
 
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO bsg_people (fname, lname, crewbase, role) VALUES (?,?,?,?)";
+        var sql = "INSERT INTO crew_member (fname, lname, crewbase, role) VALUES (?,?,?,?)";
         var inserts = [req.body.fname, req.body.lname, req.body.crewbase, req.body.position];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
@@ -93,7 +93,7 @@ module.exports = function(){
 
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "UPDATE bsg_people SET fname=?, lname=?, homeworld=?, age=? WHERE id=?";
+        var sql = "UPDATE crew_member SET fname=?, lname=?, homeworld=?, age=? WHERE id=?";
         var inserts = [req.body.fname, req.body.lname, req.body.homeworld, req.body.age, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
