@@ -9,7 +9,7 @@ app.engine('handlebars', handlebars.engine);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
-//app.set('port', process.argv[2]);
+app.set('port', process.argv[2]);
 app.set('mysql', mysql);
 
 app.get("/", function(req, res){
@@ -30,13 +30,14 @@ app.use(function(err, req, res, next){
   res.render('500');
 });
 
+/*
 //DELETE THIS ON FLIP
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log('Express started; press Ctrl-C to terminate.');
 });
-
-/* USE THIS ON FLIP
+*/
+// USE THIS ON FLIP
 app.listen(app.get('port'), function(){
   console.log('Express started on http://flip1.engr.oregonstate.edu:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
-*/
+
