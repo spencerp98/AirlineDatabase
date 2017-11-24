@@ -1,0 +1,52 @@
+
+<h2>Flights</h2>
+<table border="solid">
+	<thead>
+		<tr>
+			<th>Flight Number</th>
+			<th>Aircraft</th>
+			<th>Departure City</th>
+			<th>Arrival City</th>
+			<th>Date & Time</th>
+		</tr>
+	</thead>
+	<tbody>
+	    {{#each flight}}
+		<tr>
+			<td>{{flightNum}}</td>
+			<td>{{aircraft}}</td>
+			<td>{{departure}}</td>
+			<td>{{arrival}}</td>
+			<td>{{datetime}}</td>
+			<td><button onclick="deleteFlight({{id}})">Delete</button></td>
+			<td><a href="/flights/{{id}}">Update</a></td>
+		</tr>	
+		{{/each}}
+	</tbody>
+</table>
+
+<form id="addFlight" action="/flights" method="post">
+	<fieldset>
+		<legend>Add Flight</legend>
+		<p>
+			<label for="flightNum">Flight Number:</label>
+			<input type="text" name="flightNum">
+		</p>
+		<p>
+			<label for="departure">Departure City:</label>
+			<input type="text" name="departure">
+		</p>
+		<p>
+			<label for="arrival">Arrival City:</label>
+			<input type="text" name="arrival">
+		</p>
+		<p>Crew Base:
+			<select name="aircraft">
+				{{#each aircraft}}
+				<option value="{{id}}">{{registrationNumber}}</option>
+				{{/each}}
+			</select>
+		</p>
+		<input type="submit" value="Submit" name="flightSubmit">
+	</fieldset>
+</form>
