@@ -17,6 +17,7 @@ app.get("/", function(req, res){
 });
 
 app.use('/crew', require('./crew.js'));
+app.use('/aircraft', require('./aircraft.js'));
 app.use('/flights', require('./flights.js'));
 
 app.use(function(req,res){
