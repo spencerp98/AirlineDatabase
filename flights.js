@@ -8,7 +8,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.crewbase = results;
+            context.aircraft = results;
             complete();
         });
     }
@@ -19,7 +19,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.crew_member = results;
+            context.flights = results;
             complete();
         });
     }
@@ -32,7 +32,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.crew_member = results[0];
+            context.flight = results[0];
             complete();
         });
     }
