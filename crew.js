@@ -122,6 +122,8 @@ module.exports = function(){
             }
         })
     })
+    
+    /* route to add a new crewbase */
 
     return router;
 }();
