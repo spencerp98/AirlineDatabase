@@ -1,0 +1,11 @@
+<h1>Update {{aircraft.manufacturer}} {{aircraft.model}} {{aircraft.registrationNumber}}:</h1>
+<form id="update-aircraft" action="/aircraft" method="post">
+    Type: <select name="aircraftType" id="aircraft-selector"> 
+        {{#each aircraftType}}
+			<option value="{{id}}">{{manufacturer}} {{model}}</option>
+		{{/each}}
+    </select><br>
+    Registration Number: <input type="text" name="registrationNumber" value="{{aircraft.registrationNumber}}"><br>
+</form>
+<button onclick="updateAircraft({{aircraft.id}})">Update</button>
+<script defer>selectAircraftType({{aircraft.type}});</script>

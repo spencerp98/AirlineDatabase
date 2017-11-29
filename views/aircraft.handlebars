@@ -3,14 +3,16 @@
 <table border="solid">
 	<thead>
 		<tr>
-			<th>Type</th>
+			<th>Manufacturer</th>
+			<th>Model</th>
 			<th>Registration</th>
 		</tr>
 	</thead>
 	<tbody>
 	    {{#each aircraft}}
 		<tr>
-			<td>{{type}}</td>
+			<td>{{manufacturer}}</td>
+			<td>{{model}}</td>
 			<td>{{registrationNumber}}</td>
 			<td><button onclick="deleteAircraft({{id}})">Delete</button></td>
 			<td><a href="/aircraft/{{id}}">Update</a></td>
@@ -37,7 +39,7 @@
 	</fieldset>
 </form>
 
-<form id="createAircraftType" action="/aircraft" method="post"> <!-- Change this later -->
+<form id="createAircraftType" action="/aircraft-type" method="post"> <!-- Change this later -->
 	<fieldset>
 		<legend>Create Aircraft Type</legend>
 		<p>
