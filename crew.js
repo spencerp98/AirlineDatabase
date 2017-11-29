@@ -57,7 +57,6 @@ module.exports = function(){
     
     router.get('/crewbase', function(req, res){
         var context = {};
-        context.jsscripts = ["addCrewbase.js"];
         var mysql = req.app.get('mysql');
         res.render('add-crewbase', context);
     });
