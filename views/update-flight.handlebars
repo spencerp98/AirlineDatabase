@@ -6,9 +6,9 @@
         <option value="{{id}}">{{registrationNumber}}</option>
         {{/each}}
     </select><br>
-    Departure City: <input type="text" name="departureCity" value="{{flight.departureCity}}"><br>
-    Arrival City: <input type="text" name="arrivalCity" value="{{flight.arrivalCity}}"><br>
-    Date and Time: <input type="datetime-local" name="dateTime" value="{{flight.arrivalCity}}"><br>
+    Departure City: <input type="text" name="departure" value="{{flight.departureCity}}"><br>
+    Arrival City: <input type="text" name="arrival" value="{{flight.arrivalCity}}"><br>
+    Date and Time: <input type="datetime-local" name="dateTime" value="{{flight.dateTime}}"><br>
 </form>
 <button onclick="updateflight({{flight.id}})">Update</button>
-<script defer>selectAircraft({{aircraft}});</script>
+<script defer>selectAircraft({{flight.aircraft}});</script>
