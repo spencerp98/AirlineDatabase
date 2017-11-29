@@ -42,7 +42,7 @@ module.exports = function(){
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deletecrew.js"];
+        context.jsscripts = ["deletecrew.js", "addCrewbase.js"];
         var mysql = req.app.get('mysql');
         getCrewMembers(res, mysql, context, complete);
         getCrewBases(res, mysql, context, complete);
@@ -98,7 +98,8 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }else{
-                res.redirect('/crew');
+                res.status(200);
+                res.end();
             }
         });
     });
