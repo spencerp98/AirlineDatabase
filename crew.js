@@ -97,15 +97,14 @@ module.exports = function(){
     
     router.post('/crewbase', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO crewbase (city) VALUES (?)";
+        var sql = "INSERT INTO crew_base (city) VALUES (?)";
         var inserts = [req.body.city];
 	sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
             }else{
-                res.status(200);
-                res.end();
+                res.redirect('/crew');
             }
         });
     });
