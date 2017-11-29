@@ -14,10 +14,10 @@
 	    {{#each flights}}
 		<tr>
 			<td>{{flightNum}}</td>
-			<td>{{aircraft}}</td>
-			<td>{{departure}}</td>
-			<td>{{arrival}}</td>
-			<td>{{datetime}}</td>
+			<td>{{registrationNumber}}</td>
+			<td>{{departureCity}}</td>
+			<td>{{arrivalCity}}</td>
+			<td>{{dateTime}}</td>
 			<td><button onclick="deleteFlight({{id}})">Delete</button></td>
 			<td><a href="/flights/{{id}}">Update</a></td>
 		</tr>	
