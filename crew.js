@@ -88,6 +88,20 @@ module.exports = function(){
             }
         });
     });
+    
+    router.post('/crewbase', function(req, res){
+        var mysql = req.app.get('mysql');
+        var sql = "INSERT INTO crewbase (city) VALUES (?)";
+        var inserts = [req.body.city];
+	sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }else{
+                res.redirect('/crew');
+            }
+        });
+    });
 
     /* The URI that update data is sent to in order to update a crew_member */
 
@@ -122,6 +136,8 @@ module.exports = function(){
             }
         })
     })
+    
+    /* route to add a new crewbase */
 
     return router;
 }();

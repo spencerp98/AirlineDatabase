@@ -1,4 +1,3 @@
-
 <h2>Crew Members</h2>
 <table border="solid">
 	<thead>
@@ -23,7 +22,7 @@
 	</tbody>
 </table>
 
-<form id="addCrew" action="/crew" method="post"> <!-- Change this later -->
+<form id="addCrew" action="/crew" method="post">
 	<fieldset>
 		<legend>Add Crew Memeber</legend>
 		<p>
@@ -44,6 +43,17 @@
 				<option value="{{id}}">{{city}}</option>
 				{{/each}}
 			</select>
+		</p>
+		<input type="submit" value="Submit" name="CrewSubmit">
+	</fieldset>
+</form>
+
+<form id="addCrew" action="/crewbase" method="post">
+	<fieldset>
+		<legend>Add Crew Base</legend>
+		<p>
+			<label for="city">City:</label>
+			<input type="text" name="city">
 		</p>
 		<input type="submit" value="Submit" name="CrewSubmit">
 	</fieldset>

@@ -60,7 +60,7 @@ module.exports = function(){
     router.get('/:id', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["selectaircraft.js", "updateflight.js"];
+        context.jsscripts = ["selectedaircraft.js", "updateflight.js"];
         var mysql = req.app.get('mysql');
         getFlight(res, mysql, context, req.params.id, complete);
         getAircraft(res, mysql, context, complete);
@@ -72,29 +72,29 @@ module.exports = function(){
 
         }
     });
-/*********************************************************/
-    /* Adds a crew_member, redirects to the crew page after adding */
+    
+    /* Adds a flight, redirects to the flights page after adding */
 
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO crew_member (fname, lname, crewbase, role) VALUES (?,?,?,?)";
-        var inserts = [req.body.fname, req.body.lname, req.body.crewMemberBase, req.body.position];
+        var sql = "INSERT INTO flight (flightNum, aircraft, departureCity, arrivalCity, dateTime) VALUES (?,?,?,?,?)";
+        var inserts = [req.body.flightNum, req.body.aircraft, req.body.departure, req.body.arrival, req.body.dateTime];
 	sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
             }else{
-                res.redirect('/crew');
+                res.redirect('/flights');
             }
         });
     });
 
-    /* The URI that update data is sent to in order to update a crew_member */
+    /* The URI that update data is sent to in order to update a flight */
 
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "UPDATE crew_member SET fname=?, lname=?, crewbase=?, role=? WHERE id=?";
-        var inserts = [req.body.fname, req.body.lname, req.body.crewbase, req.body.role, req.params.id];
+        var sql = "UPDATE flight SET flightNum=?, aircraft=?, departureCity=?, arrivalCity=?, dateTime=? WHERE id=?";
+        var inserts = [req.body.flightNum, req.body.aircraft, req.body.departure, req.body.arrival, req.body.dateTime, req.params.id];
 	sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -106,11 +106,11 @@ module.exports = function(){
         });
     });
 
-    /* Route to delete a crew_member, simply returns a 202 upon success. Ajax will handle this. */
+    /* Route to delete a flight, simply returns a 202 upon success. Ajax will handle this. */
 
     router.delete('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "DELETE FROM crew_member WHERE id = ?";
+        var sql = "DELETE FROM flight WHERE id = ?";
         var inserts = [req.params.id];
         sql = mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
