@@ -14,7 +14,7 @@ module.exports = function(){
     }
 
     function getAircrafts(res, mysql, context, complete){
-        mysql.pool.query("SELECT aircraft.id, type, registrationNumber FROM aircraft", function(error, results, fields){
+        mysql.pool.query("SELECT aircraft.id, registrationNumber, manufacturer, model FROM aircraft INNER JOIN aircraft_type ON aircraft.type = aircraft_type.id", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -58,8 +58,8 @@ module.exports = function(){
         var context = {};
         context.jsscripts = ["selectedaircraft.js", "updateaircraft.js"];
         var mysql = req.app.get('mysql');
-        getCrewMember(res, mysql, context, req.params.id, complete);
-        getCrewBases(res, mysql, context, complete);
+        getAircraft(res, mysql, context, req.params.id, complete);
+        getAircraftTypes(res, mysql, context, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 2){
@@ -72,7 +72,7 @@ module.exports = function(){
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO aircraft (type, registrationNumber) VALUES (?,?)";
-        var inserts = [req.body.type, req.body.registrationNumber];
+        var inserts = [req.body.acType, req.body.registrationNumber];
     sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -83,9 +83,24 @@ module.exports = function(){
         });
     });
 
+     router.post('/aircraft-type', function(req, res){
+        var mysql = req.app.get('mysql');
+        var sql = "INSERT INTO aircraft_type (manufacturer, model) VALUES (?,?)";
+        var inserts = [req.body.manufacturer, req.body.model];
+    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }else{
+                res.redirect('/aircraft');
+            }
+        });
+    });
+
+
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "UPDATE aircraft SET ttype=?, registrationNumber=? WHERE id=?";
+        var sql = "UPDATE aircraft SET type=?, registrationNumber=? WHERE id=?";
         var inserts = [req.body.type, req.body.registrationNumber, req.params.id];
     sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
@@ -100,7 +115,7 @@ module.exports = function(){
 
     router.delete('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "DELETE FROM aircraftt WHERE id = ?";
+        var sql = "DELETE FROM aircraft WHERE id = ?";
         var inserts = [req.params.id];
         sql = mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
