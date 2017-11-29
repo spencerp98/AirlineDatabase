@@ -42,7 +42,7 @@ module.exports = function(){
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deletecrew.js", "addCrewbase.js"];
+        context.jsscripts = ["deletecrew.js"];
         var mysql = req.app.get('mysql');
         getCrewMembers(res, mysql, context, complete);
         getCrewBases(res, mysql, context, complete);
@@ -53,6 +53,13 @@ module.exports = function(){
             }
 
         }
+    });
+    
+    router.get('/crewbase', function(req, res){
+        var context = {};
+        context.jsscripts = ["addCrewbase.js"];
+        var mysql = req.app.get('mysql');
+        res.render('add-crewbase', context);
     });
 
     /* Display one crew_member for the specific purpose of updating that crew_member */
