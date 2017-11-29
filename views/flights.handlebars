@@ -32,6 +32,13 @@
 			<label for="flightNum">Flight Number:</label>
 			<input type="text" name="flightNum">
 		</p>
+		<p>Aircraft:
+			<select name="aircraft">
+				{{#each aircraft}}
+				<option value="{{id}}">{{registrationNumber}}</option>
+				{{/each}}
+			</select>
+		</p>
 		<p>
 			<label for="departure">Departure City:</label>
 			<input type="text" name="departure">
@@ -40,12 +47,9 @@
 			<label for="arrival">Arrival City:</label>
 			<input type="text" name="arrival">
 		</p>
-		<p>Crew Base:
-			<select name="aircraft">
-				{{#each aircraft}}
-				<option value="{{id}}">{{registrationNumber}}</option>
-				{{/each}}
-			</select>
+		<p>
+			<label for="dateTime">Date and Time:</label>
+			<input type="datetime-local" name="dateTime">
 		</p>
 		<input type="submit" value="Submit" name="flightSubmit">
 	</fieldset>

@@ -88,7 +88,7 @@ module.exports = function(){
             }
         });
     });
-
+    
     /* The URI that update data is sent to in order to update a flight */
 
     router.put('/:id', function(req, res){
