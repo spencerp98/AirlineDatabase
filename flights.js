@@ -36,6 +36,19 @@ module.exports = function(){
             complete();
         });
     }
+    
+    function getCrewFlight(res, mysql, context, id, complete){
+        var sql = "SELECT fname, lname, flightNum, dateTime FROM crew_member INNER JOIN crew_flight ON crew_member.id = crew_flight.crew_id INNER JOIN flight ON crew_flight.flight_id = flight.id";
+        var inserts = [id];
+        mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.crew_flight = results;
+            complete();
+        });
+    }
 
     /*Display all flights. Requires web based javascript to delete users with AJAX*/
 
@@ -46,9 +59,10 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         getFlights(res, mysql, context, complete);
         getAircraft(res, mysql, context, complete);
+        getCrewFlight(res, mysql, context, complete);
         function complete(){
             callbackCount++;
-            if(callbackCount >= 2){
+            if(callbackCount >= 3){
                 res.render('flights', context);
             }
 
