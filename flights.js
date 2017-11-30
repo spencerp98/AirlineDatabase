@@ -132,12 +132,12 @@ module.exports = function(){
             }else{
                 res.status(202).end();
             }
-        })
-    })
+        });
+    });
     
     /* Route to delete a flight, simply returns a 202 upon success. Ajax will handle this. */
 
-    router.delete('assignment/:id', function(req, res){
+    router.delete('/assignment/:id', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = "DELETE FROM crew_flight WHERE id = ?";
         var inserts = [req.params.id];
@@ -149,8 +149,8 @@ module.exports = function(){
             }else{
                 res.status(202).end();
             }
-        })
-    })
+        });
+    });
 
     return router;
 }();
