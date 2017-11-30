@@ -25,7 +25,11 @@ module.exports = function(){
     }
 
     function getFlight(res, mysql, context, id, complete){
+<<<<<<< HEAD
         var sql = "SELECT id, flightNum, aircraft, departureCity, arrivalCity, DATE_FORMAT(dateTime, '%Y-%m-%dT%H:%i') AS dateTime FROM flight WHERE id = ?";
+=======
+        var sql = "SELECT flight.id, flightNum, aircraft, departureCity, arrivalCity, DATE_FORMAT(dateTime, '%Y-%m-%dT%H:%i') AS dateTime FROM flight WHERE id = ?";
+>>>>>>> 45760a3268ffabb3fc694e28de604ba35cc8e833
         var inserts = [id];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
