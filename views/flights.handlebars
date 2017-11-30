@@ -54,3 +54,25 @@
 		<input type="submit" value="Submit" name="flightSubmit">
 	</fieldset>
 </form>
+
+<table border="solid">
+	<thead>
+		<tr>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Flight Number</th>
+			<th>Date & Time</th>
+		</tr>
+	</thead>
+	<tbody>
+	    {{#each crew_flight}}
+		<tr>
+			<td>{{fname}}</td>
+			<td>{{lname}}</td>
+			<td>{{flightNum}}</td>
+			<td>{{dateTime}}</td>
+			<td><button onclick="deleteCrewFlight({{id}})">Delete</button></td>
+		</tr>
+	</tbody>
+</table>
+

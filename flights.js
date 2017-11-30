@@ -25,7 +25,7 @@ module.exports = function(){
     }
 
     function getFlight(res, mysql, context, id, complete){
-        var sql = "SELECT flight.id, flightNum, aircraft, departureCity, arrivalCity, dateTime FROM flight WHERE id = ?";
+        var sql = "SELECT id, flightNum, aircraft, departureCity, arrivalCity, DATE_FORMAT(dateTime, '%Y-%m-%dT%H:%i') AS dateTime FROM flight WHERE id = ?";
         var inserts = [id];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
@@ -42,7 +42,7 @@ module.exports = function(){
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deleteflight.js"];
+        context.jsscripts = ["deleteflight.js", "deleteCrewFlight.js"];
         var mysql = req.app.get('mysql');
         getFlights(res, mysql, context, complete);
         getAircraft(res, mysql, context, complete);
@@ -95,7 +95,7 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         var sql = "UPDATE flight SET flightNum=?, aircraft=?, departureCity=?, arrivalCity=?, dateTime=? WHERE id=?";
         var inserts = [req.body.flightNum, req.body.aircraft, req.body.departure, req.body.arrival, req.body.dateTime, req.params.id];
-	sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+	    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -111,6 +111,23 @@ module.exports = function(){
     router.delete('/:id', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = "DELETE FROM flight WHERE id = ?";
+        var inserts = [req.params.id];
+        sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.status(400);
+                res.end();
+            }else{
+                res.status(202).end();
+            }
+        })
+    })
+    
+    /* Route to delete a flight, simply returns a 202 upon success. Ajax will handle this. */
+
+    router.delete('assignment/:id', function(req, res){
+        var mysql = req.app.get('mysql');
+        var sql = "DELETE FROM crew_flight WHERE id = ?";
         var inserts = [req.params.id];
         sql = mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
