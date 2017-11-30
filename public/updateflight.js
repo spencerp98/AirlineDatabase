@@ -1,6 +1,6 @@
 function updateflight(id){
     $.ajax({
-        url: '/flight/' + id,
+        url: '/flights/' + id,
         type: 'PUT',
         data: $('#update-flight').serialize(),
         success: function(result){
