@@ -36,10 +36,9 @@ module.exports = function(){
             complete();
         });
     }
-    
-    function getCrewFlight(res, mysql, context, id, complete){
-        var sql = "SELECT fname, lname, flightNum, dateTime FROM crew_member INNER JOIN crew_flight ON crew_member.id = crew_flight.crew_id INNER JOIN flight ON crew_flight.flight_id = flight.id";
-        mysql.pool.query(sql, function(error, results, fields){
+
+    function getCrewFlight(res, mysql, context, complete){
+        mysql.pool.query("SELECT fname, lname, flightNum, dateTime FROM crew_member INNER JOIN crew_flight ON crew_member.id = crew_flight.crew_id INNER JOIN flight ON crew_flight.flight_id = flight.id", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
