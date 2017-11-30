@@ -1,6 +1,6 @@
-function deleteCrewFlight(id){
+function deleteflight(id){
     $.ajax({
-        url: '/flights/assignment/' + id,
+        url: '/flights/' + id,
         type: 'DELETE',
         success: function(result){
             window.location.reload(true);
