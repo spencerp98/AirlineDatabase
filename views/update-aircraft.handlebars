@@ -1,6 +1,6 @@
-<h1>Update {{aircraft.manufacturer}} {{aircraft.model}} {{aircraft.registrationNumber}}:</h1>
+<h1>Update Aircraft Registration Number {{aircraft.registrationNumber}}:</h1>
 <form id="update-aircraft" action="/aircraft" method="post">
-    Type: <select name="aircraftType" id="aircraft-selector"> 
+    Type: <select name="aircraftType" id="aircraftType-selector"> 
         {{#each aircraftType}}
 			<option value="{{id}}">{{manufacturer}} {{model}}</option>
 		{{/each}}
