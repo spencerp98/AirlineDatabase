@@ -1,0 +1,15 @@
+<h1>Select a crew member to see their certifications: </h1>
+
+<form id="searchCrew" action="/crew/crewsearch" method="post">
+	<fieldset>
+		<legend>Search Crew Memeber</legend>
+		<p>Crew Member:
+			<select name="crewSearch">
+				{{#each crew_member}}
+				<option value="{{id}}">{{fname}} {{lname}}</option>
+				{{/each}}
+			</select>
+		</p>
+		<input type="submit" value="Submit" name="SearchSubmit">
+	</fieldset>
+</form>

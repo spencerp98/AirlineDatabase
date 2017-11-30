@@ -37,6 +37,19 @@ module.exports = function(){
         });
     }
 
+    function getCrewSearch(res, mysql, context, id, complete){
+        var sql = "SELECT crew_member.id, fname, lname, aircraft_type.manufacturer, aircraft_type.model FROM crew_member LEFT JOIN crew_aircraft ON crew_member.id = crew_aircraft.crew_id LEFT JOIN aircraft_type ON crew_aircraft.aircraftTypeID = aircraft_type.id WHERE id = ?";
+        var inserts = [id];
+        mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.crew_member = results[0];
+            complete();
+        });
+    }
+
     /*Display all crew. Requires web based javascript to delete users with AJAX*/
 
     router.get('/', function(req, res){
@@ -61,6 +74,32 @@ module.exports = function(){
         var context = {};
         var mysql = req.app.get('mysql');
         res.render('add-crewbase', context);
+    });
+
+      router.get('/crewsearch', function(req, res){
+        var callbackCount = 0;
+        var context = {};
+        var mysql = req.app.get('mysql');
+        getCrewMembers(res, mysql, context, complete);
+        function complete(){
+            callbackCount++;
+            if(callbackCount >=1){
+                res.render('crew-search', context);
+            }
+        }
+    });
+
+    router.post('/crewsearch', function(req, res){
+        var callbackCount = 0;
+        var context = {};
+        var mysql = req.app.get('mysql');
+        getCrewSearch(res, mysql, context, complete);
+        function complete(){
+            callbackCount++;
+            if(callbackCount >=1){
+                res.render('member-certification', context);
+            }
+        }
     });
 
     /* Display one crew_member for the specific purpose of updating that crew_member */
