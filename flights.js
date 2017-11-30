@@ -38,7 +38,7 @@ module.exports = function(){
     }
 
     function getCrewFlight(res, mysql, context, complete){
-        mysql.pool.query("SELECT fname, lname, flightNum, dateTime FROM crew_member INNER JOIN crew_flight ON crew_member.id = crew_flight.crew_id INNER JOIN flight ON crew_flight.flight_id = flight.id", function(error, results, fields){
+        mysql.pool.query("SELECT crew_flight.id AS id, fname, lname, flightNum, dateTime FROM crew_member INNER JOIN crew_flight ON crew_member.id = crew_flight.crew_id INNER JOIN flight ON crew_flight.flight_id = flight.id", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
