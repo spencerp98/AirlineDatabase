@@ -28,6 +28,7 @@ CREATE TABLE `crew_flight` (
 	`id` int NOT NULL AUTO_INCREMENT,
 	`crew_id` int NOT NULL,
 	`flight_id` int NOT NULL,
+	PRIMARY KEY (`id`),
 	FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`),
 	FOREIGN KEY (`flight_id`) REFERENCES `flight` (`id`)
 ) ENGINE=InnoDB;
@@ -62,6 +63,7 @@ CREATE TABLE `crew_aircraft` (
 	`id` int NOT NULL AUTO_INCREMENT,
 	`crew_id` int NOT NULL,
 	`aircraftTypeID` int NOT NULL,
+	PRIMARY KEY (`id`),
 	FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`),
 	FOREIGN KEY (`aircraftTypeID`) REFERENCES `aircraft_type` (`id`)
 ) ENGINE=InnoDB;
