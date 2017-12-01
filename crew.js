@@ -45,7 +45,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.crew_member = results[0];
+            context.crew_member = results;
             complete();
         });
     }
@@ -76,9 +76,10 @@ module.exports = function(){
         res.render('add-crewbase', context);
     });
 
-      router.get('/crewsearch', function(req, res){
+    router.get('/crewsearch', function(req, res){
         var callbackCount = 0;
         var context = {};
+        context.jsscripts = ["searchmember.js"];
         var mysql = req.app.get('mysql');
         getCrewMembers(res, mysql, context, complete);
         function complete(){
@@ -89,18 +90,19 @@ module.exports = function(){
         }
     });
 
-    router.post('/crewsearch', function(req, res){
-        var callbackCount = 0;
-        var context = {};
-        var mysql = req.app.get('mysql');
-        getCrewSearch(res, mysql, context, complete);
-        function complete(){
-            callbackCount++;
-            if(callbackCount >=1){
-                res.render('member-certification', context);
-            }
-        }
-    });
+    
+    router.get('/crewsearch/:id', function(req, res){
+       var callbackCount = 0;
+       var context = {};
+       var mysql = req.app.get('mysql');
+       getCrewSearch(res, mysql, context, req.param.id, complete);
+       function complete(){
+           callbackCount++;
+           if(callbackCount >=1){
+               res.render('member-certification', context);
+           }
+       }
+   });
 
     /* Display one crew_member for the specific purpose of updating that crew_member */
 
