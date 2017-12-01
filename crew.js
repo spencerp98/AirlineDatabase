@@ -49,6 +49,17 @@ module.exports = function(){
             complete();
         });
     }
+    
+    function getAircraftTypes(res, mysql, context, complete){
+    	mysql.pool.query("SELECT id, manufacturer, model FROM aircraft_type", function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.aircraftType = results;
+            complete();
+        });
+    }
 
     /*Display all crew. Requires web based javascript to delete users with AJAX*/
 
@@ -96,13 +107,28 @@ module.exports = function(){
        var context = {};
        var mysql = req.app.get('mysql');
        getCrewSearch(res, mysql, context, req.params.id, complete);
+       getAircraftTypes(res, mysql, context, complete);
        function complete(){
            callbackCount++;
-           if(callbackCount >=1){
+           if(callbackCount >=2){
                res.render('member-certification', context);
            }
        }
    });
+   
+   router.post('/crewsearch/:id', function(req, res){
+       var mysql = req.app.get('mysql');
+        var sql = "INSERT INTO crew_aircraft (crew_id, aircraftTypeID) VALUES (?,?)";
+        var inserts = [req.body.crew_id, req.body.aircraftTypeID];
+	    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }else{
+                res.redirect('/crewsearch/' + req.params.id);
+            }
+        });
+   })
 
     /* Display one crew_member for the specific purpose of updating that crew_member */
 

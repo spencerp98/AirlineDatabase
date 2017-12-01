@@ -18,3 +18,19 @@
 		{{/each}}
 	</tbody>
 </table>
+
+<br>
+<form id="addCert" action="/crewsearch/{{crew_id}}" method="post">
+	<fieldset>
+		<legend>Add a new aircraft certification to this Crew Member</legend>
+		<input type="hidden" value="{{crew_member.id}}" name="crew_id">
+		<p>Aircraft Types:
+			<select name="aircraftTypeID">
+				{{#each aircraftType}}
+				<option value="{{id}}">{{manufacturer}} {{model}}</option>
+				{{/each}}
+			</select>
+		</p>
+		<input type="submit" value="Submit" name="newCertSubmit">
+	</fieldset>
+</form>
