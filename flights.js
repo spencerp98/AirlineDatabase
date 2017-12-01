@@ -76,6 +76,54 @@ module.exports = function(){
             }
         }
     });
+    
+    /* Adds a flight, redirects to the flights page after adding */
+
+    router.post('/', function(req, res){
+        var mysql = req.app.get('mysql');
+        var sql = "INSERT INTO flight (flightNum, aircraft, departureCity, arrivalCity, dateTime) VALUES (?,?,?,?,?)";
+        var inserts = [req.body.flightNum, req.body.aircraft, req.body.departure, req.body.arrival, req.body.dateTime];
+	    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }else{
+                res.redirect('/flights');
+            }
+        });
+    });
+     
+    /* Displays page to add a new row to the crew_flight table */
+
+    router.get('/assignflight', function(req, res){
+        var callbackCount = 0;
+        var context = {};
+        var mysql = req.app.get('mysql');
+        getFlights(res, mysql, context, complete);
+        getCrewMembers(res, mysql, context, complete);
+        function complete(){
+            callbackCount++;
+            if(callbackCount >= 2){
+                res.render('assignflight', context);
+            }
+        }
+    });
+    
+    /* handles request to add new row to crew_flight table */
+    
+    router.post('/assignflight', function(req, res){
+        var mysql = req.app.get('mysql');
+        var sql = "INSERT INTO crew_flight (crew_id, flight_id) VALUES (?,?)";
+        var inserts = [req.body.crew_id, req.body.flight_id];
+	    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }else{
+                res.redirect('/flights');
+            }
+        });
+    });
 
     /* Display one flight for the specific purpose of updating that flight */
 
@@ -94,22 +142,6 @@ module.exports = function(){
         }
     });
     
-    /* Adds a flight, redirects to the flights page after adding */
-
-    router.post('/', function(req, res){
-        var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO flight (flightNum, aircraft, departureCity, arrivalCity, dateTime) VALUES (?,?,?,?,?)";
-        var inserts = [req.body.flightNum, req.body.aircraft, req.body.departure, req.body.arrival, req.body.dateTime];
-	    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
-            if(error){
-                res.write(JSON.stringify(error));
-                res.end();
-            }else{
-                res.redirect('/flights');
-            }
-        });
-    });
-    
     /* The URI that update data is sent to in order to update a flight */
 
     router.put('/:id', function(req, res){
@@ -123,23 +155,6 @@ module.exports = function(){
             }else{
                 res.status(200);
                 res.end();
-            }
-        });
-    });
-
-    /* Route to delete a flight, simply returns a 202 upon success. Ajax will handle this. */
-
-    router.delete('/:id', function(req, res){
-        var mysql = req.app.get('mysql');
-        var sql = "DELETE FROM flight WHERE id = ?";
-        var inserts = [req.params.id];
-        sql = mysql.pool.query(sql, inserts, function(error, results, fields){
-            if(error){
-                res.write(JSON.stringify(error));
-                res.status(400);
-                res.end();
-            }else{
-                res.status(202).end();
             }
         });
     });
@@ -160,38 +175,23 @@ module.exports = function(){
             }
         });
     });
-    
-    /* Displays page to add a new row to the crew_flight table */
 
-    router.get('/assignflight', function(req, res){
-        var callbackCount = 0;
-        var context = {};
+    /* Route to delete a flight, simply returns a 202 upon success. Ajax will handle this. */
+
+    router.delete('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        getFlights(res, mysql, context, complete);
-        getCrewMembers(res, mysql, context, complete);
-        function complete(){
-            callbackCount++;
-            if(callbackCount >= 2){
-                res.render('assignflight', context);
-            }
-        }
-    });
-    
-    /* handles request to add new row to crew_flight table */
-    
-    router.post('/', function(req, res){
-        var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO crew_flight (crew_id, flight_id) VALUES (?,?)";
-        var inserts = [req.body.crew_id, req.body.flight_id];
-	    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+        var sql = "DELETE FROM flight WHERE id = ?";
+        var inserts = [req.params.id];
+        sql = mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
+                res.status(400);
                 res.end();
             }else{
-                res.redirect('/flights');
+                res.status(202).end();
             }
         });
     });
-
+   
     return router;
 }();
