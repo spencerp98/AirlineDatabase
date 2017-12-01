@@ -45,7 +45,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.crew_member = results;
+            context.crew_search = results;
             complete();
         });
     }
@@ -107,10 +107,11 @@ module.exports = function(){
        var context = {};
        var mysql = req.app.get('mysql');
        getCrewSearch(res, mysql, context, req.params.id, complete);
+       getCrewMember(res, mysql, context, req.params.id, complete);
        getAircraftTypes(res, mysql, context, complete);
        function complete(){
            callbackCount++;
-           if(callbackCount >=2){
+           if(callbackCount >=3){
                res.render('member-certification', context);
            }
        }
