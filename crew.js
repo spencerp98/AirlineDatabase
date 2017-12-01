@@ -126,7 +126,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }else{
-                res.redirect('/crewsearch/' + req.params.id);
+                res.redirect('/crew/crewsearch/' + req.params.id);
             }
         });
    })
