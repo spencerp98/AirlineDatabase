@@ -95,7 +95,7 @@ module.exports = function(){
        var callbackCount = 0;
        var context = {};
        var mysql = req.app.get('mysql');
-       getCrewSearch(res, mysql, context, req.param.id, complete);
+       getCrewSearch(res, mysql, context, req.params.id, complete);
        function complete(){
            callbackCount++;
            if(callbackCount >=1){
