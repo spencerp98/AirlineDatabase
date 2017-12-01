@@ -68,6 +68,8 @@ module.exports = function(){
         }
     });
     
+    /* Displays form to create new crewbase */
+    
     router.get('/crewbase', function(req, res){
         var context = {};
         var mysql = req.app.get('mysql');
@@ -126,7 +128,7 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO crew_member (fname, lname, crewbase, role) VALUES (?,?,?,?)";
         var inserts = [req.body.fname, req.body.lname, req.body.crewMemberBase, req.body.position];
-	sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+	    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -135,6 +137,8 @@ module.exports = function(){
             }
         });
     });
+    
+    /* New crew base data is sent here to create a new crew base */
     
     router.post('/crewbase', function(req, res){
         var mysql = req.app.get('mysql');
@@ -156,7 +160,7 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         var sql = "UPDATE crew_member SET fname=?, lname=?, crewbase=?, role=? WHERE id=?";
         var inserts = [req.body.fname, req.body.lname, req.body.crewbase, req.body.role, req.params.id];
-	sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+    	sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -183,8 +187,6 @@ module.exports = function(){
             }
         })
     })
-    
-    /* route to add a new crewbase */
 
     return router;
 }();

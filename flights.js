@@ -132,8 +132,8 @@ module.exports = function(){
             }else{
                 res.status(202).end();
             }
-        })
-    })
+        });
+    });
     
     /* Route to delete a flight, simply returns a 202 upon success. Ajax will handle this. */
 
@@ -149,8 +149,8 @@ module.exports = function(){
             }else{
                 res.status(202).end();
             }
-        })
-    })
+        });
+    });
 
     return router;
 }();
