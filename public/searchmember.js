@@ -1,6 +1,5 @@
-var id = document.getElementById("crewSelect").value;
-
-function searchMember(id){
+function searchMember(){
+    var id = document.getElementById("crewSelect").value;
     $.ajax({
         url: '/crewsearch/' + id,
         type: 'GET',
