@@ -38,7 +38,7 @@ module.exports = function(){
     }
 
     function getCrewSearch(res, mysql, context, id, complete){
-        var sql = "SELECT crew_member.id, fname, lname, aircraft_type.manufacturer, aircraft_type.model FROM crew_member LEFT JOIN crew_aircraft ON crew_member.id = crew_aircraft.crew_id LEFT JOIN aircraft_type ON crew_aircraft.aircraftTypeID = aircraft_type.id WHERE id = ?";
+        var sql = "SELECT crew_member.id, fname, lname, aircraft_type.manufacturer, aircraft_type.model FROM crew_member LEFT JOIN crew_aircraft ON crew_member.id = crew_aircraft.crew_id LEFT JOIN aircraft_type ON crew_aircraft.aircraftTypeID = aircraft_type.id WHERE crew_member.id = ?";
         var inserts = [id];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
