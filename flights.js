@@ -14,7 +14,7 @@ module.exports = function(){
     }
 
     function getFlights(res, mysql, context, complete){
-        mysql.pool.query("SELECT flight.id, flightNum, registrationNumber, departureCity, arrivalCity, dateTime FROM flight LEFT JOIN aircraft ON flight.aircraft = aircraft.id", function(error, results, fields){
+        mysql.pool.query("SELECT flight.id AS id, flightNum, registrationNumber, departureCity, arrivalCity, dateTime FROM flight LEFT JOIN aircraft ON flight.aircraft = aircraft.id", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -47,6 +47,17 @@ module.exports = function(){
             complete();
         });
     }
+    
+    function getCrewMembers(res, mysql, context, complete){
+        mysql.pool.query("SELECT id, fname, lname FROM crew_member", function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.crew_members = results;
+            complete();
+        });
+    }
 
     /*Display all flights. Requires web based javascript to delete users with AJAX*/
 
@@ -63,7 +74,6 @@ module.exports = function(){
             if(callbackCount >= 3){
                 res.render('flights', context);
             }
-
         }
     });
 
@@ -81,7 +91,6 @@ module.exports = function(){
             if(callbackCount >= 2){
                 res.render('update-flight', context);
             }
-
         }
     });
     
@@ -91,7 +100,7 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO flight (flightNum, aircraft, departureCity, arrivalCity, dateTime) VALUES (?,?,?,?,?)";
         var inserts = [req.body.flightNum, req.body.aircraft, req.body.departure, req.body.arrival, req.body.dateTime];
-	sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+	    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -148,6 +157,38 @@ module.exports = function(){
                 res.end();
             }else{
                 res.status(202).end();
+            }
+        });
+    });
+    
+    /* Displays page to add a new row to the crew_flight table */
+
+    router.get('/assignflight', function(req, res){
+        var callbackCount = 0;
+        var context = {};
+        var mysql = req.app.get('mysql');
+        getFlights(res, mysql, context, complete);
+        getCrewMembers(res, mysql, context, complete);
+        function complete(){
+            callbackCount++;
+            if(callbackCount >= 2){
+                res.render('assignflight', context);
+            }
+        }
+    });
+    
+    /* handles request to add new row to crew_flight table */
+    
+    router.post('/', function(req, res){
+        var mysql = req.app.get('mysql');
+        var sql = "INSERT INTO crew_flight (crew_id, flight_id) VALUES (?,?)";
+        var inserts = [req.body.crew_id, req.body.flight_id];
+	    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }else{
+                res.redirect('/flights');
             }
         });
     });
