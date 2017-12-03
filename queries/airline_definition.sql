@@ -29,8 +29,8 @@ CREATE TABLE `crew_flight` (
 	`crew_id` int NOT NULL,
 	`flight_id` int NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`),
-	FOREIGN KEY (`flight_id`) REFERENCES `flight` (`id`)
+	FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`) ON DELETE CASCADE,
+	FOREIGN KEY (`flight_id`) REFERENCES `flight` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `flight` (
@@ -41,7 +41,7 @@ CREATE TABLE `flight` (
 	`arrivalCity` varchar(255) NOT NULL,
 	`dateTime` datetime NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`aircraft`) REFERENCES `aircraft` (`id`)
+	FOREIGN KEY (`aircraft`) REFERENCES `aircraft` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `aircraft_type` (
@@ -56,7 +56,7 @@ CREATE TABLE `aircraft` (
 	`type` int NOT NULL,
 	`registrationNumber` varchar(6) NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`type`) REFERENCES `aircraft_type` (`id`)
+	FOREIGN KEY (`type`) REFERENCES `aircraft_type` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `crew_aircraft` (
@@ -64,6 +64,6 @@ CREATE TABLE `crew_aircraft` (
 	`crew_id` int NOT NULL,
 	`aircraftTypeID` int NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`),
-	FOREIGN KEY (`aircraftTypeID`) REFERENCES `aircraft_type` (`id`)
+	FOREIGN KEY (`crew_id`) REFERENCES `crew_member` (`id`) ON DELETE CASCADE,
+	FOREIGN KEY (`aircraftTypeID`) REFERENCES `aircraft_type` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
